@@ -26,6 +26,9 @@ android {
         compile 'com.facebook.android:facebook-android-sdk:4.7.0'
         compile 'de.hdodenhof:circleimageview:2.0.0'
     }
+    dependencies {
+        compile 'com.google.code.gson:gson:2.5'
+    }
 }
 
 dependencies {

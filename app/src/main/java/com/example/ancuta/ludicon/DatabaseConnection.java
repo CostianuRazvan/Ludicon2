@@ -86,7 +86,7 @@ public class DatabaseConnection {
 
     //String url = "http://api.androidhive.info/volley/person_object.json";
 
-    public void loginPOST(final Context context,final String email,final String password,String url) {
+ /*   public void loginPOST(final Context context,final String email,final String password,String url) {
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
                 url, null,
                 new Response.Listener<JSONObject>() {
@@ -148,11 +148,12 @@ public class DatabaseConnection {
             */
         };
 
-        try {
+     /*   try {
 // Adding request to request queue
             AppController.getInstance().addToRequestQueue(jsonObjReq);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-}
+    */
+//}

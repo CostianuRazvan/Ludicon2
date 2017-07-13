@@ -3,7 +3,14 @@ package com.example.ancuta.ludicon.Controller;
 import android.app.Activity;
 import android.content.SharedPreferences;
 
+import com.example.ancuta.ludicon.User;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import org.json.JSONObject;
+
+import java.lang.reflect.Type;
+import java.util.List;
 
 /**
  * Created by ancuta on 7/12/2017.
@@ -23,17 +30,28 @@ public class Persistance {
     }
     private final String userDetailsString = "UserDetails";
 
-    public void setUserInfo(Activity activity, JSONObject json){
+    public void setUserInfo(Activity activity, User user){
+
         SharedPreferences.Editor editor = activity.getSharedPreferences(userDetailsString, 0).edit();
-        editor.putString(userDetailsString, json.toString());
+        Gson gson = new Gson();
+        editor.putString(userDetailsString, gson.toJson(user));
         editor.commit();
     }
 
-    public String getUserInfo(Activity activity){
+    public User getUserInfo(Activity activity){
         String json=null;
         SharedPreferences sharedPreferences = activity.getSharedPreferences(userDetailsString, 0);
         json = sharedPreferences.getString(userDetailsString, "0");
-        return json;
+        Gson gson = new Gson();
+        User user;
+        System.out.println(json);
+        if(json.equals("0")){
+            user=new User();
+        }
+        else {
+            user = gson.fromJson(json, User.class);
+        }
+        return user;
     }
 
 

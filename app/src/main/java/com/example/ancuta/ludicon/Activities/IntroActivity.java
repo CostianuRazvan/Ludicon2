@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import com.example.ancuta.ludicon.Controller.Persistance;
 import com.example.ancuta.ludicon.R;
+import com.example.ancuta.ludicon.User;
+
 /**
  * Created by ancuta on 7/10/2017.
  */
@@ -51,9 +53,14 @@ public class IntroActivity extends Activity {
             }
         });
 
+        if(Persistance.getInstance().getUserInfo(this).range.equals("null")){
+            Intent intent = new Intent(getApplicationContext(), AskPrefferencies.class);
+            startActivity(intent);
 
-        System.out.println(Persistance.getInstance().getUserInfo(this));
-        if(Persistance.getInstance().getUserInfo(this).equals("0")){
+
+        }
+
+        else if(Persistance.getInstance().getUserInfo(this).id.equals("")){
             facebookButton.setVisibility(View.VISIBLE);
             loginButton.setVisibility(View.VISIBLE);
             registerButton.setVisibility(View.VISIBLE);
@@ -62,9 +69,10 @@ public class IntroActivity extends Activity {
             loginButton.animate().alpha(1f).setDuration(1000);
             registerButton.animate().alpha(1f).setDuration(1000);
             infoTextView.animate().alpha(1f).setDuration(1000);
-
-
-
+        }
+        else{
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
         }
 
 

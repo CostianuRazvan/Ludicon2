@@ -1,9 +1,12 @@
 package com.example.ancuta.ludicon.Controller;
 
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 import java.util.Map;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
@@ -17,25 +20,31 @@ public class CustomRequest extends Request<JSONObject> {
 
     private Listener<JSONObject> listener;
     private Map<String, String> params;
+    private Map<String,String> headers;
 
-    public CustomRequest(String url, Map<String, String> params,
+    public CustomRequest(String url, Map<String, String> params,Map<String, String> headers,
                          Listener<JSONObject> reponseListener, ErrorListener errorListener) {
         super(Method.GET, url, errorListener);
         this.listener = reponseListener;
         this.params = params;
+        this.headers=headers;
     }
 
-    public CustomRequest(int method, String url, Map<String, String> params,
+    public CustomRequest(int method, String url, Map<String, String> params,Map<String, String> headers,
                          Listener<JSONObject> responseListener, ErrorListener errorListener) {
         super(method, url, errorListener);
         this.listener = responseListener;
         this.params = params;
+        this.headers=headers;
     }
 
     protected Map<String, String> getParams()
             throws com.android.volley.AuthFailureError {
         return params;
     };
+    public Map<String, String> getHeaders() throws AuthFailureError {
+        return headers;
+    }
 
     @Override
     protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {

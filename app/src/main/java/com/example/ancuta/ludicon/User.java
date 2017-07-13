@@ -7,6 +7,7 @@ import java.util.ArrayList;
  */
 
 public class User {
+    public final String authKey;
     public final String id;
     public final String firstName;
     public final String gender;
@@ -17,7 +18,22 @@ public class User {
     public final String profileImage;
     public final String range;
     public final ArrayList<Sport> sports=new ArrayList<Sport>();
-    public User(String id,String firstName,String gender,String facebookId,String lastName,int ludicoins,int level,String profileImage,String range,ArrayList<Sport> sports) {
+
+    public User(){
+        this.authKey="";
+        this.id="";
+        this.firstName="";
+        this.gender="";
+        this.facebookId="";
+        this.lastName="";
+        this.ludicoins=-1;
+        this.level=-1;
+        this.profileImage="";
+        this.range="";
+
+    }
+    public User(String authKey,String id,String firstName,String gender,String facebookId,String lastName,int ludicoins,int level,String profileImage,String range,ArrayList<Sport> sports) {
+        this.authKey=authKey;
         this.id=id;
         this.firstName = firstName;
         this.gender=gender;
