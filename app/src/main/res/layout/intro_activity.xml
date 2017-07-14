@@ -105,5 +105,13 @@
         android:layout_height="100dp"
         app:srcCompat="@drawable/logo"
         android:layout_centerVertical="true"/>
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/profileImage"
+        android:layout_centerHorizontal="true"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_centerVertical="true"
+        android:alpha="0"/>
 
 </RelativeLayout>

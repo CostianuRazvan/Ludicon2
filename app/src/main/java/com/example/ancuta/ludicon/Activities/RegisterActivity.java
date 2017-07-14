@@ -197,7 +197,7 @@ public class RegisterActivity extends FragmentActivity {
                         params.put("password", PasswordEncryptor.generateSHA255FromString(password.getText().toString()));
                         params.put("isCustom","0");
                         HashMap<String, String> headers = new HashMap<String, String>();
-                        headers.put("apiKey", "000000");
+                        headers.put("apiKey", "b0a83e90-4ee7-49b7-9200-fdc5af8c2d33");
                         HTTPResponseController.getInstance().returnResponse(params, headers, RegisterActivity.this, "http://207.154.236.13/api/register/");
 
                     }

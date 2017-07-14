@@ -9,9 +9,9 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
-import com.example.ancuta.ludicon.Activities.AskPrefferencies;
 import com.example.ancuta.ludicon.Activities.LoginActivity;
 import com.example.ancuta.ludicon.Activities.MainActivity;
+import com.example.ancuta.ludicon.Activities.ProfileDetailsActivity;
 import com.example.ancuta.ludicon.Sport;
 import com.example.ancuta.ludicon.User;
 
@@ -67,8 +67,8 @@ public class HTTPResponseController {
                         Persistance.getInstance().setUserInfo(activity, user);
 
 
-                        if(user.range.equals("null")){
-                            Intent intent = new Intent(activity, AskPrefferencies.class);
+                        if(user.range.equals("0")){
+                            Intent intent = new Intent(activity, ProfileDetailsActivity.class);
                             activity.startActivity(intent);
                         }
                         else{
@@ -86,14 +86,19 @@ public class HTTPResponseController {
                     activity.startActivity(intent);
 
                 }
+                else if(activity.getLocalClassName().toString().equals("Activities.ProfileDetailsActivity")){
+                    Intent intent = new Intent(activity, LoginActivity.class);
+                    activity.startActivity(intent);
+                }
 
             }
         };
     }
     public String trimMessage(String json, String key){
         String trimmedString = null;
-        if(activity.getLocalClassName().toString().equals("Activities.LoginActivity"))
-        LoginActivity.progressBar.setAlpha(0f);
+        if(activity.getLocalClassName().toString().equals("Activities.LoginActivity")) {
+            LoginActivity.progressBar.setAlpha(0f);
+        }
 
         try{
             JSONObject obj = new JSONObject(json);
@@ -111,6 +116,7 @@ public class HTTPResponseController {
         return new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                System.out.println(error);
                 String json = error.getMessage();
                 json = trimMessage(json, "error");
                 if(json != null) displayMessage(json);
