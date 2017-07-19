@@ -2,6 +2,7 @@ package com.example.ancuta.ludicon.Activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -80,8 +81,11 @@ public class LoginActivity extends Activity {
 
         setContentView(R.layout.login_activity);
         backButton=(ImageButton) findViewById(R.id.backButton);
+        backButton.setBackgroundResource(R.drawable.ic_nav_up);
         forgotPasswordText=(TextView) findViewById(R.id.forgotPasswordText);
         TextView titleText=(TextView) findViewById(R.id.titleText);
+
+        Typeface typeFace=Typeface.createFromAsset(getAssets(),"fonts/Quicksand-Medium.ttf");
         titleText.setText("Login");
         password=(EditText) findViewById(R.id.password) ;
         email=(EditText) findViewById(R.id.email);
@@ -154,9 +158,10 @@ public class LoginActivity extends Activity {
 
                         HashMap<String, String> params = new HashMap<String, String>();
                         params.put("email", email.getText().toString());
-                        params.put("password",PasswordEncryptor.generateSHA255FromString(password.getText().toString()));
+                        params.put("password",PasswordEncryptor.generateSHA255FromString(password.getText().toString()));//PasswordEncryptor.generateSHA255FromString(password.getText().toString()));
                         HashMap<String, String> headers = new HashMap<String, String>();
                         headers.put("apiKey", "b0a83e90-4ee7-49b7-9200-fdc5af8c2d33");
+                       // headers.put("Content-Type","application/json;charset=utf-8");
                         HTTPResponseController.getInstance().returnResponse(params, headers, LoginActivity.this, "http://207.154.236.13/api/login/");
                         progressBar.setIndeterminate(true);
                         progressBar.setAlpha(1f);

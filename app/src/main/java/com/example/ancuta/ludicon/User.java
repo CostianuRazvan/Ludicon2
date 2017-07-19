@@ -14,6 +14,8 @@ public class User {
     public final String facebookId;
     public final String lastName;
     public final int ludicoins;
+    public final String email;
+    public final String password;
     public final int level;
     public final String profileImage;
     public final String range;
@@ -30,9 +32,11 @@ public class User {
         this.level=-1;
         this.profileImage="";
         this.range="";
+        this.email="";
+        this.password="";
 
     }
-    public User(String authKey,String id,String firstName,String gender,String facebookId,String lastName,int ludicoins,int level,String profileImage,String range,ArrayList<Sport> sports) {
+    public User(String authKey,String id,String firstName,String gender,String facebookId,String lastName,int ludicoins,int level,String profileImage,String range,ArrayList<Sport> sports,String email,String password) {
         this.authKey=authKey;
         this.id=id;
         this.firstName = firstName;
@@ -46,6 +50,8 @@ public class User {
         for(int i=0;i<sports.size();i++){
             this.sports.add(sports.get(i));
         }
+        this.password=password;
+        this.email=email;
     }
 
 }

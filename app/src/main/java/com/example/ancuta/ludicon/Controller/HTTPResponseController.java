@@ -12,6 +12,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.ancuta.ludicon.Activities.LoginActivity;
 import com.example.ancuta.ludicon.Activities.MainActivity;
 import com.example.ancuta.ludicon.Activities.ProfileDetailsActivity;
+import com.example.ancuta.ludicon.Activities.SportDetailsActivity;
 import com.example.ancuta.ludicon.Sport;
 import com.example.ancuta.ludicon.User;
 
@@ -41,14 +42,18 @@ public class HTTPResponseController {
 
     public JSONObject json=null;
     Activity activity;
+    String password;
+    String email;
 
     private Response.Listener<JSONObject>  createRequestSuccessListener(){
         return new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject jsonObject) {
-                if(activity.getLocalClassName().toString().equals("Activities.LoginActivity")) {
+                if(activity.getLocalClassName().toString().equals("Activities.LoginActivity")||activity.getLocalClassName().toString().equals("Activities.IntroActivity")) {
                     try {
-                        json = jsonObject;
+                        //json = jsonObject;
+                        json=new JSONObject(jsonObject.toString().substring(jsonObject.toString().indexOf("{"), jsonObject.toString().lastIndexOf("}") + 1));
+                        System.out.println(json);
                         ArrayList<String> listOfSports =new ArrayList<String>();
                         for(int i=0;i<jsonObject.getJSONObject("user").getJSONArray("sports").length();i++){
                             listOfSports.add(jsonObject.getJSONObject("user").getJSONArray("sports").get(i).toString());
@@ -63,7 +68,7 @@ public class HTTPResponseController {
                                 jsonObject.getJSONObject("user").getString("facebookId"),jsonObject.getJSONObject("user").getString("lastName"),
                                 jsonObject.getJSONObject("user").getInt("ludicoins"),jsonObject.getJSONObject("user").getInt("level"),
                                 jsonObject.getJSONObject("user").getString("profileImage"),jsonObject.getJSONObject("user").getString("range"),
-                                sports);
+                                sports,email,password);
                         Persistance.getInstance().setUserInfo(activity, user);
 
 
@@ -86,8 +91,8 @@ public class HTTPResponseController {
                     activity.startActivity(intent);
 
                 }
-                else if(activity.getLocalClassName().toString().equals("Activities.ProfileDetailsActivity")){
-                    Intent intent = new Intent(activity, LoginActivity.class);
+                else if(activity.getLocalClassName().toString().equals("Activities.SportDetailsActivity")){
+                    Intent intent = new Intent(activity, MainActivity.class);
                     activity.startActivity(intent);
                 }
 
@@ -101,6 +106,8 @@ public class HTTPResponseController {
         }
 
         try{
+
+            System.out.println(json);
             JSONObject obj = new JSONObject(json);
             trimmedString = obj.getString(key);
         } catch(JSONException e){
@@ -127,8 +134,10 @@ public class HTTPResponseController {
         };
     }
 
-    public void setActivity(Activity activity){
+    public void setActivity(Activity activity,String email,String password){
         this.activity=activity;
+        this.email=email;
+        this.password=password;
     }
 
     public void displayMessage(String toastString){
@@ -136,7 +145,7 @@ public class HTTPResponseController {
     }
 
     public JSONObject returnResponse(HashMap<String,String> params,HashMap<String,String> headers, Activity activity,String url){
-        setActivity(activity);
+        setActivity(activity,params.get("email"),params.get("password"));
         RequestQueue requestQueue = Volley.newRequestQueue(activity);
         CustomRequest jsObjRequest = new CustomRequest(Request.Method.POST, url, params,headers,this.createRequestSuccessListener(), this.createRequestErrorListener());
         requestQueue.add(jsObjRequest);

@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
@@ -13,10 +15,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.ancuta.ludicon.Controller.HTTPResponseController;
 import com.example.ancuta.ludicon.Controller.Persistance;
+import com.example.ancuta.ludicon.PasswordEncryptor;
 import com.example.ancuta.ludicon.R;
 import com.example.ancuta.ludicon.User;
 
+import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -35,14 +40,12 @@ public class IntroActivity extends Activity {
 
     public void goToActivity(){
         if(!go) {
-            if (Persistance.getInstance().getUserInfo(this).range.equals("0")) {
-                Intent intent = new Intent(getApplicationContext(), ProfileDetailsActivity.class);
-                startActivity(intent);
-
-            } else {
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
-            }
+            HashMap<String, String> params = new HashMap<String, String>();
+            params.put("email", Persistance.getInstance().getUserInfo(IntroActivity.this).email);
+            params.put("password", Persistance.getInstance().getUserInfo(IntroActivity.this).password);
+            HashMap<String, String> headers = new HashMap<String, String>();
+            headers.put("apiKey", "b0a83e90-4ee7-49b7-9200-fdc5af8c2d33");
+            HTTPResponseController.getInstance().returnResponse(params, headers, IntroActivity.this, "http://207.154.236.13/api/login/");
         }
     }
     public static Bitmap decodeBase64(String input)
@@ -58,9 +61,16 @@ public class IntroActivity extends Activity {
         setContentView(R.layout.intro_activity);
         ImageView logo=(ImageView) findViewById(R.id.logo);
         logo.setImageResource(R.drawable.logo);
+        // set font
+        Typeface typeFace=Typeface.createFromAsset(getAssets(),"fonts/Quicksand-Bold.ttf");
+
         facebookButton=(Button) findViewById(R.id.facebookButton);
+        facebookButton.setTypeface(typeFace);
         loginButton=(Button) findViewById(R.id.loginButton);
+        loginButton.setTypeface(typeFace);
+
         registerButton=(Button) findViewById(R.id.registerButton);
+        registerButton.setTypeface(typeFace);
         infoTextView=(TextView) findViewById(R.id.textView);
         profileImage=(ImageView) findViewById(R.id.profileImage) ;
         logo.animate().translationY(-300f).setDuration(1000);
@@ -109,6 +119,8 @@ public class IntroActivity extends Activity {
                 startActivity(intent);
             }
         });
+
+
 
 
 

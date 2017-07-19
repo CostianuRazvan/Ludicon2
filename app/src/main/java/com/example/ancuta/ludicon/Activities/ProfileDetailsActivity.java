@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ancuta.ludicon.Controller.HTTPResponseController;
 import com.example.ancuta.ludicon.Controller.ImagePicker;
@@ -84,11 +85,29 @@ public class ProfileDetailsActivity extends Activity {
         titleText.setText("Profile Details");
         sexSwitch=(RadioGroup) findViewById(R.id.sexSwitch);
         chooseAPhoto=(ImageView) findViewById(R.id.chooseAPhoto);
+        chooseAPhoto.setImageResource(R.drawable.ic_image_add);
         imgProfilePicture=(ImageView) findViewById(R.id.imgProfilePicture);
         saveAndContinueButton=(Button) findViewById(R.id.saveAndContinueButton);
         introText=(TextView) findViewById(R.id.introText);
         introText.setText("New you out here "+Persistance.getInstance().getUserInfo(this).firstName+"?Cool!");
         age=(EditText)findViewById(R.id.age);
+        if(getIntent().getStringExtra("profileImage")!= null){
+            myBase64Image=getIntent().getStringExtra("profileImage");
+            imgProfilePicture.setImageBitmap(decodeBase64(getIntent().getStringExtra("profileImage")));
+            chooseAPhoto.setImageResource(R.drawable.ic_image_edit);
+        }
+        if(getIntent().getStringExtra("yearBorn")!=null){
+            age.setText(String.valueOf(Calendar.getInstance().get(Calendar.YEAR)-Integer.parseInt(getIntent().getStringExtra("yearBorn"))));
+            age.setSelection(String.valueOf(Calendar.getInstance().get(Calendar.YEAR)-Integer.parseInt(getIntent().getStringExtra("yearBorn"))).length());
+        }
+        if(getIntent().getStringExtra("gender")!=null){
+            if(getIntent().getStringExtra("gender").equals("0")){
+                male.setChecked(true);
+            }
+            else if(getIntent().getStringExtra("gender").equals("1")){
+                female.setChecked(true);
+            }
+        }
         age.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -109,23 +128,23 @@ public class ProfileDetailsActivity extends Activity {
 
 
         if(male.isChecked()){
-            male.setBackgroundResource(R.drawable.rounded_button);
+            male.setBackgroundResource(R.drawable.toggle_male);
 
         }
         else{
-            female.setBackgroundResource(R.drawable.rounded_button);
+            female.setBackgroundResource(R.drawable.toggle_female);
         }
         sexSwitch.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
                 if(male.isChecked()){
-                    male.setBackgroundResource(R.drawable.rounded_button);
+                    male.setBackgroundResource(R.drawable.toggle_male);
                     female.setBackgroundResource(transparent);
                     sex=0;
 
                 }
                 else{
-                    female.setBackgroundResource(R.drawable.rounded_button);
+                    female.setBackgroundResource(R.drawable.toggle_female);
                     male.setBackgroundResource(transparent);
                     sex=1;
                 }
@@ -143,21 +162,20 @@ public class ProfileDetailsActivity extends Activity {
             @Override
             public void onClick(View view) {
                 if (age.getText().length() > 0) {
-                    HashMap<String, String> params = new HashMap<String, String>();
-                    params.put("userId", Persistance.getInstance().getUserInfo(ProfileDetailsActivity.this).id);
-                    params.put("gender", String.valueOf(sex));
-                    params.put("yearBorn", String.valueOf(Calendar.getInstance().get(Calendar.YEAR) - Integer.parseInt(age.getText().toString())));
+                    Intent intent = new Intent(ProfileDetailsActivity.this, SportDetailsActivity.class);
+                    intent.putExtra("yearBorn", String.valueOf(Calendar.getInstance().get(Calendar.YEAR) - Integer.parseInt(age.getText().toString())));
                     if (myBase64Image != null) {
-                        params.put("profileImage", myBase64Image);
+                        intent.putExtra("profileImage", myBase64Image);
                     }
-                    HashMap<String, String> headers = new HashMap<String, String>();
-                    headers.put("authKey", Persistance.getInstance().getUserInfo(ProfileDetailsActivity.this).authKey);
-                    HTTPResponseController.getInstance().returnResponse(params, headers, ProfileDetailsActivity.this, "http://207.154.236.13/api/user/");
+                    intent.putExtra("gender", String.valueOf(sex));
+                    ProfileDetailsActivity.this.startActivity(intent);
+                    startActivityForResult(intent, 1);
                 }
                 else{
                     Animation shake = AnimationUtils.loadAnimation(ProfileDetailsActivity.this, R.anim.shake);
                     age.startAnimation(shake);
                     age.setBackgroundResource(R.drawable.rounded_edittext_red);
+                    Toast.makeText(ProfileDetailsActivity.this,"Please insert your age!",Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -178,6 +196,7 @@ public class ProfileDetailsActivity extends Activity {
                 if(bitmap != null) {
                     imgProfilePicture.setImageBitmap(bitmap);
                     myBase64Image=encodeToBase64(bitmap, Bitmap.CompressFormat.JPEG, 50);
+                    chooseAPhoto.setImageResource(R.drawable.ic_image_edit);
                     System.out.println("dimensiunea este:" + myBase64Image.length());
                 }
                 break;

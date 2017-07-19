@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark">
+    android:background="@drawable/bg_main">
 
 
 
@@ -21,8 +21,10 @@
         <Button
             android:id="@+id/facebookButton"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:text="CONNECT WITH FACEBOOK"
+            android:textSize="14sp"
+            android:textColor="#ffffff"
             android:visibility="invisible"
             android:background="@drawable/rounded_button"
             android:alpha="0.3"/>
@@ -66,9 +68,11 @@
         <Button
             android:id="@+id/loginButton"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:layout_toLeftOf="@+id/imageView2"
             android:text="LOGIN"
+            android:textSize="14sp"
+            android:textColor="#ffffff"
             android:visibility="invisible"
             android:background="@drawable/rounded_button"
             android:alpha="0.3"/>
@@ -76,9 +80,11 @@
         <Button
             android:id="@+id/registerButton"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:layout_toRightOf="@+id/imageView2"
             android:text="REGISTER"
+            android:textSize="14sp"
+            android:textColor="#ffffff"
             android:visibility="invisible"
             android:background="@drawable/rounded_button"
             android:alpha="0.3"/>
@@ -103,7 +109,7 @@
         android:layout_centerHorizontal="true"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        app:srcCompat="@drawable/logo"
+        app:srcCompat="@drawable/logo_app"
         android:layout_centerVertical="true"/>
     <de.hdodenhof.circleimageview.CircleImageView
         xmlns:app="http://schemas.android.com/apk/res-auto"

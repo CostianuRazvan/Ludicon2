@@ -120,7 +120,7 @@
             android:id="@+id/age"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:drawableLeft="@drawable/messenger_bubble_small_blue"
+            android:drawableLeft="@drawable/ic_calendar"
             android:ems="10"
             android:paddingLeft="15dp"
             android:layout_marginTop="15dp"
@@ -138,6 +138,8 @@
         android:text="SAVE &amp; CONTINUE"
         android:layout_marginBottom="10dp"
         android:layout_alignParentBottom="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:background="@drawable/rounded_button"/>
 
 </RelativeLayout>

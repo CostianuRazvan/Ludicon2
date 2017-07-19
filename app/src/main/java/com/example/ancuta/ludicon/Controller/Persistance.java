@@ -29,6 +29,7 @@ public class Persistance {
         return instance;
     }
     private final String userDetailsString = "UserDetails";
+    private final String profileDetailsString="ProfileDetails";
 
     public void setUserInfo(Activity activity, User user){
 
@@ -53,6 +54,5 @@ public class Persistance {
         }
         return user;
     }
-
 
 }
